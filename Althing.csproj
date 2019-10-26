@@ -8,4 +8,9 @@
   <ItemGroup>
   </ItemGroup>
 
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.41.1.1746" />
+  </ItemGroup>
+
 </Project>
