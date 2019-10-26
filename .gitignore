@@ -466,3 +466,7 @@ Scripts/
 
 # Undo-tree save-files
 *.~undo-tree
+
+# Google Calendar
+token.json
+credentials.json
