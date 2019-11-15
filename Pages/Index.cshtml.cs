@@ -18,6 +18,9 @@ namespace Althing.Pages
 {
     public class IndexModel : PageModel
     {
+        [BindProperty]
+        public Events GoogleEvents { get; set; }
+
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/calendar-dotnet-quickstart.json
         static string[] Scopes = { CalendarService.Scope.CalendarReadonly };
@@ -66,6 +69,7 @@ namespace Althing.Pages
 
             // List events.
             Events events = request.Execute();
+            GoogleEvents = events;
             Console.WriteLine("Upcoming events:");
             if (events.Items != null && events.Items.Count > 0)
             {

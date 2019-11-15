@@ -7,4 +7,77 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <div class="row">
+        <h1 class="popover-header col-lg-12 col-sm-12">@Html.DisplayName(DateTime.Now.ToString("MMMM"))</h1>
+    </div>
+
+    @functions {
+        bool testForSameTime(Google.Apis.Calendar.v3.Data.Event a, Google.Apis.Calendar.v3.Data.Event b)
+        {
+            if (a.Start.Date == null)
+            {
+                if (a.Start.DateTime == b.Start.DateTime)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (a.Start.Date == b.Start.Date)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        DateTime parseGoogleEventForDateTime(Google.Apis.Calendar.v3.Data.Event e)
+        {
+            if (e.Start.Date != null)
+            {
+                return System.DateTime.Parse(e.Start.Date.ToString());
+            }
+            else if (e.Start.DateTime != null)
+            {
+                return System.DateTime.Parse(e.Start.DateTime.ToString());
+            }
+            else
+            {
+                return System.DateTime.Now;
+            }
+        }
+    }
+
+    @if (Model.GoogleEvents != null)
+    {
+        var allEvents = Model.GoogleEvents.Items;
+
+        @for (int i = 0; i < allEvents.Count; i++)
+        {
+            var item = allEvents[i];
+            // HtmlLink = "https://www.google.com/calendar/event?eid=YmRnMjhuZmxlZ3M3djZhc2ZuNjc0aDI1ZWtfMjAxOTExMDNUMTczMDAwWiBqaW5oYWxlQG0"
+            // item.Start.DateTimeRaw
+
+            @if (i == 0 || !testForSameTime(item, allEvents[i - 1]))
+            {
+                var date = parseGoogleEventForDateTime(item).ToString("dddd MMMM d");
+                <div class="row">
+                    <h2>@Html.DisplayFor(modelItem => date)</h2>
+                </div>
+            }
+
+            <div class="row">
+                <a target="_blank" href="@item.HtmlLink">@Html.DisplayFor(modelItem => item.Summary)</a>
+            </div>
+        }
+    }
+
 </div>
