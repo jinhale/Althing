@@ -56,16 +56,26 @@
             // HtmlLink = "https://www.google.com/calendar/event?eid=YmRnMjhuZmxlZ3M3djZhc2ZuNjc0aDI1ZWtfMjAxOTExMDNUMTczMDAwWiBqaW5oYWxlQG0"
             // item.Start.DateTimeRaw
 
+            var date = parseGoogleEventForDateTime(item).ToString("dddd MMMM d");
             @if (i == 0 || !testForSameDate(item, allEvents[i - 1]))
             {
-                var date = parseGoogleEventForDateTime(item).ToString("dddd MMMM d");
                 <div class="row">
                     <h2>@Html.DisplayFor(modelItem => date)</h2>
                 </div>
             }
 
+            var googleDate = System.DateTime.Parse(date);
+            var hour = googleDate.Hour.ToString();
+            var minute = googleDate.Minute.ToString();
+            var presentationTime = (item.Start.DateTime != null) ?
+                DateTime.Parse(item.Start.DateTime.ToString()).Hour.ToString() + ":" + DateTime.Parse(item.Start.DateTime.ToString()).Minute.ToString() :
+                "";
+
             <div class="row">
-                <a target="_blank" href="@item.HtmlLink">@Html.DisplayFor(modelItem => item.Summary)</a>
+                <a target="_blank" href="@item.HtmlLink">
+                    @Html.DisplayFor(modelItem => item.Summary)
+                    @Html.DisplayFor(modelItem => presentationTime)
+                </a>
             </div>
         }
     }
