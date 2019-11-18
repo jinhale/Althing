@@ -13,29 +13,19 @@
     </div>
 
     @functions {
-        bool testForSameTime(Google.Apis.Calendar.v3.Data.Event a, Google.Apis.Calendar.v3.Data.Event b)
+        bool testForSameDate(Google.Apis.Calendar.v3.Data.Event a, Google.Apis.Calendar.v3.Data.Event b)
         {
-            if (a.Start.Date == null)
+            DateTime aDateTime = parseGoogleEventForDateTime(a);
+            DateTime bDateTime = parseGoogleEventForDateTime(b);
+            int compareDateTime = DateTime.Compare(aDateTime, bDateTime);
+
+            if (compareDateTime == 0)
             {
-                if (a.Start.DateTime == b.Start.DateTime)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
             else
             {
-                if (a.Start.Date == b.Start.Date)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return aDateTime.Date == bDateTime.Date;
             }
         }
 
@@ -66,7 +56,7 @@
             // HtmlLink = "https://www.google.com/calendar/event?eid=YmRnMjhuZmxlZ3M3djZhc2ZuNjc0aDI1ZWtfMjAxOTExMDNUMTczMDAwWiBqaW5oYWxlQG0"
             // item.Start.DateTimeRaw
 
-            @if (i == 0 || !testForSameTime(item, allEvents[i - 1]))
+            @if (i == 0 || !testForSameDate(item, allEvents[i - 1]))
             {
                 var date = parseGoogleEventForDateTime(item).ToString("dddd MMMM d");
                 <div class="row">
