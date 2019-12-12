@@ -31,7 +31,10 @@
 
         DateTime parseGoogleEventForDateTime(Google.Apis.Calendar.v3.Data.Event e)
         {
-            if (e.Start.Date != null)
+            if (String.IsNullOrEmpty(e.Start.DateTimeRaw) == false)
+            {
+                return System.DateTime.Parse(e.Start.DateTimeRaw);
+            } else if (e.Start.Date != null)
             {
                 return System.DateTime.Parse(e.Start.Date.ToString());
             }
@@ -56,7 +59,8 @@
             // HtmlLink = "https://www.google.com/calendar/event?eid=YmRnMjhuZmxlZ3M3djZhc2ZuNjc0aDI1ZWtfMjAxOTExMDNUMTczMDAwWiBqaW5oYWxlQG0"
             // item.Start.DateTimeRaw
 
-            var date = parseGoogleEventForDateTime(item).ToString("dddd MMMM d");
+            var googleDateTime = parseGoogleEventForDateTime(item);
+            var date = googleDateTime.ToString("dddd MMMM d");
             @if (i == 0 || !testForSameDate(item, allEvents[i - 1]))
             {
                 <div class="row">
@@ -64,9 +68,8 @@
                 </div>
             }
 
-            var googleDate = System.DateTime.Parse(date);
-            var hour = googleDate.Hour.ToString();
-            var minute = googleDate.Minute.ToString();
+            var hour = googleDateTime.Hour.ToString();
+            var minute = googleDateTime.Minute.ToString();
             var presentationTime = (item.Start.DateTime != null) ?
                 DateTime.Parse(item.Start.DateTime.ToString()).Hour.ToString() + ":" + DateTime.Parse(item.Start.DateTime.ToString()).Minute.ToString() :
                 "";
