@@ -64,7 +64,7 @@ namespace Althing.Pages
             request.TimeMin = DateTime.Now;
             request.ShowDeleted = false;
             request.SingleEvents = true;
-            request.MaxResults = 10;
+            request.TimeMax = DateTime.Now.AddDays(28);
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
             // List events.
