@@ -70,9 +70,8 @@
 
             var hour = googleDateTime.Hour.ToString();
             var minute = googleDateTime.Minute.ToString();
-            var presentationTime = (item.Start.DateTime != null) ?
-                DateTime.Parse(item.Start.DateTime.ToString()).Hour.ToString() + ":" + DateTime.Parse(item.Start.DateTime.ToString()).Minute.ToString() :
-                "";
+            var halfTime = googleDateTime.ToString("tt");
+            var presentationTime = (item.Start.DateTime != null) ? hour + ":" + minute + " " + halfTime : "";
 
             <div class="row">
                 <a target="_blank" href="@item.HtmlLink">
