@@ -1,7 +1,7 @@
-﻿@page
+@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+ViewData["Title"] = "Home page";
 }
 
 <div class="text-center">
@@ -34,7 +34,8 @@
             if (String.IsNullOrEmpty(e.Start.DateTimeRaw) == false)
             {
                 return System.DateTime.Parse(e.Start.DateTimeRaw);
-            } else if (e.Start.Date != null)
+            }
+            else if (e.Start.Date != null)
             {
                 return System.DateTime.Parse(e.Start.Date.ToString());
             }
@@ -64,7 +65,7 @@
             @if (i == 0 || !testForSameDate(item, allEvents[i - 1]))
             {
                 <div class="row">
-                    <h2>@Html.DisplayFor(modelItem => date)</h2>
+                <h2>@Html.DisplayFor(modelItem => date)</h2>
                 </div>
             }
 
@@ -74,10 +75,10 @@
             var presentationTime = (item.Start.DateTime != null) ? hour + ":" + minute + " " + halfTime : "";
 
             <div class="row">
-                <a target="_blank" href="@item.HtmlLink">
-                    @Html.DisplayFor(modelItem => item.Summary)
-                    @Html.DisplayFor(modelItem => presentationTime)
-                </a>
+            <a target="_blank" href="@item.HtmlLink">
+            @Html.DisplayFor(modelItem => item.Summary)
+            @Html.DisplayFor(modelItem => presentationTime)
+            </a>
             </div>
         }
     }
